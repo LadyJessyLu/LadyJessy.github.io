@@ -231,11 +231,49 @@
     color:var(--plum);
   }
 
+  /* ===== CATEGORY FILTERS ===== */
+  .filter-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:34px;
+  }
+  .filter-btn{
+    font-family:'Poppins', sans-serif;
+    background:var(--lilac-light);
+    color:var(--plum);
+    border:1px solid transparent;
+    padding:9px 20px;
+    border-radius:30px;
+    font-size:0.82rem;
+    font-weight:500;
+    letter-spacing:0.2px;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .filter-btn:hover{transform:translateY(-1px);}
+  .filter-btn.active{
+    background:var(--plum);
+    color:#fff;
+  }
+
+  .empty-state{
+    display:none;
+    text-align:center;
+    color:var(--plum-soft);
+    font-size:0.9rem;
+    font-weight:300;
+    padding:40px 20px;
+  }
+  .empty-state.show{display:block;}
+
   .grid{
     display:grid;
     grid-template-columns:1fr;
     gap:22px;
   }
+  .card.hidden{display:none;}
 
   @media (min-width:540px){
     .grid{grid-template-columns:repeat(2,1fr);}
@@ -406,9 +444,18 @@
     <h2>Nuestros Productos</h2>
   </div>
 
-  <div class="grid">
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="capilar">Capilar</button>
+    <button class="filter-btn" data-filter="joyeria">Joyería</button>
+    <button class="filter-btn" data-filter="maquillaje">Maquillaje</button>
+    <button class="filter-btn" data-filter="skincare">Skincare</button>
+    <button class="filter-btn" data-filter="varios">Varios</button>
+  </div>
 
-    <div class="card">
+  <div class="grid" id="productGrid">
+
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/dy1ibwcdn/image/upload/v1782165735/WhatsApp_Image_2026-06-22_at_17.57.23_rltlgp.jpg" alt="Botox Matizador">
       </div>
@@ -423,7 +470,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/dy1ibwcdn/image/upload/v1782165735/WhatsApp_Image_2026-06-22_at_17.57.24_f3adb9.jpg" alt="Curl Pack">
       </div>
@@ -438,7 +485,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/dy1ibwcdn/image/upload/v1782165735/WhatsApp_Image_2026-06-22_at_17.57.23_2_rflutd.jpg" alt="Crema Reparadora">
       </div>
@@ -453,7 +500,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/dy1ibwcdn/image/upload/v1782165735/WhatsApp_Image_2026-06-22_at_17.57.23_1_l5kst4.jpg" alt="Shampoo y Acondicionador Post Alisado">
       </div>
@@ -468,7 +515,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1785969972/WhatsApp_Image_2026-08-03_at_17.48.27_1_wix6sq.jpg" alt="Mascarilla de Reparación Profunda con Aceite de Argán 1000ml">
       </div>
@@ -483,22 +530,7 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-img">
-        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1785970079/WhatsApp_Image_2026-08-05_at_16.33.35_dagwqh.jpg" alt="Botox Capilar Alisante Proliss KRTN">
-      </div>
-      <div class="card-body">
-        <div class="card-name">Botox Capilar Alisante Proliss KRTN</div>
-        <div class="card-price">$8.500</div>
-        <a class="whatsapp-btn" target="_blank"
-           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Botox%20Capilar%20Alisante%20Proliss%20KRTN%20-%20Precio%3A%20%248.500">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
-          Pedir por WhatsApp
-        </a>
-      </div>
-    </div>
-
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1785970078/WhatsApp_Image_2026-08-03_at_17.50.22_gvwtwy.jpg" alt="Protector de Calor Rocco">
       </div>
@@ -513,7 +545,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1785970079/WhatsApp_Image_2026-08-05_at_16.28.54_wzs59d.jpg" alt="Shampoo y Acondicionador de Cebolla, Biotina y Romero OBOPEKAL">
       </div>
@@ -528,7 +560,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" data-category="capilar">
       <div class="card-img">
         <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1785970079/WhatsApp_Image_2026-08-05_at_16.33.35_dagwqh.jpg" alt="Shampoo y Acondicionador Limón & Menta">
       </div>
@@ -543,7 +575,132 @@
       </div>
     </div>
 
+    <div class="card" data-category="joyeria">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787007763/WhatsApp_Image_2026-06-17_at_17.15.25_1_cstmbu.jpg" alt="Collar y Pulsera de Piedras de Río Blancas">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Collar y Pulsera de Piedras de Río Blancas</div>
+        <div class="card-price">$6.000</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Collar%20y%20Pulsera%20de%20Piedras%20de%20R%C3%ADo%20Blancas%20-%20Precio%3A%20%246.000">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+
+    <div class="card" data-category="capilar">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787178060/5_rnbe8w.jpg" alt="Shampoo y Acondicionador Carbón Vegetal, Fórmula sin Sal, Control Integral">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Shampoo y Acondicionador Carbón Vegetal, Fórmula sin Sal, Control Integral</div>
+        <div class="card-price">$8.000</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Shampoo%20y%20Acondicionador%20Carb%C3%B3n%20Vegetal%2C%20F%C3%B3rmula%20sin%20Sal%2C%20Control%20Integral%20-%20Precio%3A%20%248.000">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="card" data-category="capilar">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787178060/6_wudtee.jpg" alt="Crema Matizadora Violeta Efecto Platinado 500ml">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Crema Matizadora Violeta Efecto Platinado 500ml</div>
+        <div class="card-price">$8.500</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Crema%20Matizadora%20Violeta%20Efecto%20Platinado%20500ml%20-%20Precio%3A%20%248.500">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="card" data-category="capilar">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787178059/4_tiddrw.jpg" alt="Botox Control Anti Frizz, Brillo y Nutrición">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Botox Control Anti Frizz, Brillo y Nutrición</div>
+        <div class="card-price">$6.500</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Botox%20Control%20Anti%20Frizz%2C%20Brillo%20y%20Nutrici%C3%B3n%20-%20Precio%3A%20%246.500">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="card" data-category="capilar">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787178044/3_csjfah.jpg" alt="Shampoo en Seco Rocco">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Shampoo en Seco Rocco</div>
+        <div class="card-price">$5.500</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Shampoo%20en%20Seco%20Rocco%20-%20Precio%3A%20%245.500">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="card" data-category="capilar">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787177912/WhatsApp_Image_2026-08-03_at_17.48.27_glgqam.jpg" alt="Botox Capilar Alisante">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Botox Capilar Alisante</div>
+        <div class="card-price">$8.500</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Botox%20Capilar%20Alisante%20-%20Precio%3A%20%248.500">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+
+    <div class="card" data-category="joyeria">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787179189/WhatsApp_Image_2026-08-19_at_18.02.19_xn2mgr.jpg" alt="Collar Largo Tono Turquesa, Elegante y Llamativo">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Collar Largo Tono Turquesa, Elegante y Llamativo</div>
+        <div class="card-price">$5.000</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Collar%20Largo%20Tono%20Turquesa%2C%20Elegante%20y%20Llamativo%20-%20Precio%3A%20%245.000">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="card" data-category="joyeria">
+      <div class="card-img">
+        <img src="https://res.cloudinary.com/crcmu1kq/image/upload/v1787179189/WhatsApp_Image_2026-08-19_at_18.02.18_pzhkft.jpg" alt="Conjunto de Collar y Aros Azul Marino con Detalles Dorados, Estilo Elegante y Moderno">
+      </div>
+      <div class="card-body">
+        <div class="card-name">Conjunto de Collar y Aros Azul Marino con Detalles Dorados, Estilo Elegante y Moderno</div>
+        <div class="card-price">$6.500</div>
+        <a class="whatsapp-btn" target="_blank"
+           href="https://wa.me/56997873141?text=Hola%20Lady%20Jessy%2C%20me%20gustar%C3%ADa%20pedir%20el%20producto%3A%20Conjunto%20de%20Collar%20y%20Aros%20Azul%20Marino%20con%20Detalles%20Dorados%2C%20Estilo%20Elegante%20y%20Moderno%20-%20Precio%3A%20%246.500">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.4a9.9 9.9 0 0 0 4.7 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.55 2 12.04 2zm5.83 14.06c-.25.7-1.46 1.34-2.02 1.42-.52.08-1.17.11-1.88-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.9-4.27-5.05-4.47-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.84 2.07.92 2.22.08.15.13.33.03.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.03 2.12 1.35 2.43 1.5.31.15.49.13.67-.05.18-.18.77-.9.97-1.21.2-.31.41-.26.69-.16.28.1 1.77.83 2.07.98.3.15.5.23.57.36.07.13.07.74-.18 1.44z"/></svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+
   </div>
+
+  <p class="empty-state" id="emptyState">Pronto agregaremos productos en esta categoría. Escríbenos por WhatsApp si buscas algo en especial.</p>
+
 </section>
 
 <section class="trust">
@@ -575,6 +732,32 @@
     link.addEventListener('click', () => {
       menuBtn.classList.remove('open');
       navLinks.classList.remove('open');
+    });
+  });
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const productCards = document.querySelectorAll('#productGrid .card');
+  const emptyState = document.getElementById('emptyState');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+      let visibleCount = 0;
+
+      productCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'todos' || category === filter) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      emptyState.classList.toggle('show', visibleCount === 0);
     });
   });
 </script>
